@@ -5,7 +5,7 @@ import (
 	"io"
 )
 
-const ExtensionName string = "Invocation History Extension"
+const NameForLog string = "Invocation History Extension"
 
 type Logger struct {
 	prefix string
