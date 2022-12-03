@@ -44,16 +44,21 @@ func main() {
 
 	ipc.Start(l)
 
-	processEvents(ctx, l)
+	if err := processEvents(ctx, extensionClient); err != nil {
+		l.Error(err.Error())
+		os.Exit(1)
+	}
 }
 
-func processEvents(ctx context.Context, l *extension.Logger) {
+func processEvents(ctx context.Context, c *extension.Client) error {
 	for {
 		select {
 		case <-ctx.Done():
-			return
+			return nil
 		default:
-			l.Info("Waiting for event...")
+			if err := c.PaulingEvent(ctx); err != nil {
+				return err
+			}
 		}
 	}
 }

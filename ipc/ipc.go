@@ -7,10 +7,7 @@ import (
 	"os"
 
 	"github.com/michimani/invocation-history-extension/extension"
-	"github.com/michimani/invocation-history-extension/types"
 )
-
-var History = &types.InvocationHistory{}
 
 const (
 	extensionIPCPortEnvKey = "INVOCATION_HISTORY_EXTENSION_HTTP_PORT"
@@ -27,10 +24,10 @@ func Start(l *extension.Logger) {
 }
 
 func startServer(port string, l *extension.Logger) {
-	History.Init()
+	extension.History.Init()
 
 	http.HandleFunc("/invocations", func(w http.ResponseWriter, r *http.Request) {
-		b, err := json.Marshal(History)
+		b, err := json.Marshal(extension.History)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			l.Error(err.Error())

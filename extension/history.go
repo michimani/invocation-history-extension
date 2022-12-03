@@ -1,6 +1,10 @@
-package types
+package extension
 
-import "time"
+import (
+	"time"
+)
+
+var History = &InvocationHistory{}
 
 type Invocation struct {
 	AWSRequestID string     `json:"awsRequestId"`
