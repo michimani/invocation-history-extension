@@ -1,8 +1,8 @@
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
-github.com/michimani/aws-lambda-api-go v0.1.1 h1:5it10QXUstWlsbg/Uf8vQV3Ww6iwq/XAU4YtB5cmFXI=
-github.com/michimani/aws-lambda-api-go v0.1.1/go.mod h1:/YdauSZ+khWpSiciTRNnipfcZRmHHFUFY1z+H7Ah/s4=
+github.com/michimani/aws-lambda-api-go v0.1.2 h1:WE4mF6EMBBHakgY8XKjQj0k/f2e+KgOJ/YLxHmjKkhU=
+github.com/michimani/aws-lambda-api-go v0.1.2/go.mod h1:/YdauSZ+khWpSiciTRNnipfcZRmHHFUFY1z+H7Ah/s4=
 github.com/michimani/http-client-mock v0.0.0-20221118185837-ceac964f0fe0 h1:eWIuH0674ZOuSx6Fdw0ZyH5JvmBx1ZY9vDpZvsGpKHk=
 github.com/michimani/http-client-mock v0.0.0-20221118185837-ceac964f0fe0/go.mod h1:JFqrVwsHLTvEmGktVcDpbbjAU/t1mGlpCAsDaNdTYeU=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
