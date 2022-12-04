@@ -1,6 +1,8 @@
 Invocation History Extension
 ===
 
+[![codecov](https://codecov.io/gh/michimani/invocation-history-extension/branch/main/graph/badge.svg?token=6TB4W4ZUJ0)](https://codecov.io/gh/michimani/invocation-history-extension)
+
 This is a Extension for AWS Lambda Function that records history of invocation at the same runtime environment.
 
 - Records in memory the AWS Request IDs of Lambda functions invoked at the same runtime execution environment along with the time of the invocation.
