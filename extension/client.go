@@ -77,6 +77,7 @@ func (c *Client) PaulingEvent(ctx context.Context) error {
 	case eventTypeInvoke:
 		now := time.Now().UTC()
 		saveInvocationHistory(out.RequestID, &now)
+		c.logger.Info("Succeeded to save new history. awsRequestId:%s invokedAt:%v", out.RequestID, now)
 	default:
 		// noop
 		c.logger.Warn("Cannot handle event. eventType:%s", out.EventType)
