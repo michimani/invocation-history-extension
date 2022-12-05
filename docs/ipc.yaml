@@ -1,0 +1,68 @@
+# This document describes Invocation History Extension for AWS Lambda API using the OpenAPI 3.0 specification.
+
+openapi: 3.0.0
+info:
+  title: Invocation History Extension's IPC
+  description: Invocation History Extension's IPC is an HTTP API for getting invocation history.
+  version: 0.1.0
+
+servers:
+  - url: https://example.com:1203
+
+paths:
+
+  /invocations:
+    get:
+      summary: >
+        List of invocations that invocated on the same runtime environment.
+      responses:
+        '200':
+          description: >
+            List of invocations.
+          content:
+            application/json:
+              schema:
+                - $ref: '#/components/schemas/InvocationsResponse'
+        '500':
+          description: >
+            Internal server error.
+
+components:
+  schemas:
+    InvocationsResponse:
+      type: object
+      properties:
+        invocations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Invocations'
+      example:
+        {
+          'invocations': [
+            {
+              'awsRequestId': '95a49622-a910-4113-a061-04a22f7662a4',
+              'invocatedAt': '2022-12-04T00:15:03.255782173Z'
+            },
+            {
+              'awsRequestId': 'e6ea52db-0f97-4961-9974-4513c783c397',
+              'invocatedAt': '2022-12-04T00:15:05.756475067Z'
+            },
+            {
+              'awsRequestId': '7824be6b-3176-43fb-84ec-3b7e6d788378',
+              'invocatedAt': '2022-12-04T00:15:06.992783032Z'
+            }
+          ]
+        }
+
+    Invocations:
+      type: object
+      properties:
+        awsRequestId:
+          type: string
+        invocatedAt:
+          type: string
+      example:
+        {
+          awsRequestId: '88ed8648-5905-404c-aac4-30bb82ae14af',
+          invocatedAt: '2022-12-05T13:22:37.451851551Z'
+        }

@@ -1,4 +1,5 @@
 FROM public.ecr.aws/lambda/provided:al2 as build
+ENV EXTENSION_VERSION 0.1.0
 RUN yum install -y golang unzip
 RUN go env -w GOPROXY=direct
 ADD go.mod go.sum ./
@@ -6,7 +7,7 @@ RUN go mod download
 ADD . .
 RUN go build -o /main
 RUN mkdir -p /opt
-ADD ./bin/extension.zip ./
+ADD https://github.com/michimani/invocation-history-extension/releases/download/v$EXTENSION_VERSION/extension.zip ./
 RUN unzip extension.zip -d /opt
 RUN rm extension.zip
 
