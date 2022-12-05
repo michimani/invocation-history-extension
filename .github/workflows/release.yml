@@ -74,8 +74,7 @@ jobs:
 
     - name: Build extension and zip
       run: |
-        GOOS=linux GOARCH=amd64 go build -o bin/extensions/invocation-history-extension main.go
-        chmod +x bin/extensions/invocation-history-extension
+        make build
         cd bin && zip -r extension.zip extensions/
 
     - name: Upload release asset
