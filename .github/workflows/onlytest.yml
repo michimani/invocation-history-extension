@@ -21,7 +21,7 @@ jobs:
         go-version: 1.19
 
     - name: Check out code into the Go module directory
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Get dependencies
       run: go install
@@ -31,3 +31,20 @@ jobs:
 
     - name: Upload code coverage to Codecov
       uses: codecov/codecov-action@v3
+
+  build-test:
+    name: Build test
+    runs-on: ubuntu-latest
+    steps:
+    - name: Set up Go 1.19
+      uses: actions/setup-go@v3
+      with:
+        go-version: 1.19
+
+    - name: Check out code
+      uses: actions/checkout@v3
+
+    - name: Build extension
+      run: |
+        go version
+        make build
