@@ -58,7 +58,7 @@ const (
 	eventTypeInvoke string = "INVOKE"
 )
 
-func (c *Client) PaulingEvent(ctx context.Context) error {
+func (c *Client) PollingEvent(ctx context.Context) error {
 	c.logger.Info("Waiting for next event...")
 	out, err := extension.EventNext(ctx, c.alagoClient, &extension.EventNextInput{
 		LambdaExtensionIdentifier: c.extensionIdentifier,

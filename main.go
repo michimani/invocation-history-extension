@@ -56,7 +56,7 @@ func processEvents(ctx context.Context, c *extension.Client) error {
 		case <-ctx.Done():
 			return nil
 		default:
-			if err := c.PaulingEvent(ctx); err != nil {
+			if err := c.PollingEvent(ctx); err != nil {
 				return err
 			}
 		}
