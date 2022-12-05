@@ -28,6 +28,9 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     steps:
+    - name: Set tag name to env
+    - run:
+      echo "VERSION_TAG=${GITHUB_REF##*/}" >> $GITHUB_ENV
     - name: Set up Go 1.19
       uses: actions/setup-go@v3
       with:
@@ -43,11 +46,9 @@ jobs:
 
     - name: Create new release with asset
       uses: softprops/action-gh-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ github.ref }}
-        name: Release ${{ github.ref }}
+        tag_name: ${{ env.VERSION_TAG }}
+        name: Release ${{ env.VERSION_TAG }}
         draft: false
         prerelease: false
         files: bin/extension.zip
