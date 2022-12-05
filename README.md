@@ -79,9 +79,17 @@ ENTRYPOINT [ "/entry.sh" ]
 CMD ["/main"]
 ```
 
-# Example
+# IPC (Inter-Process Communication)
 
-See [_example](https://github.com/michimani/invocation-history-extension/tree/main/_example) for using this extension at the Lambda Function using container image.
+This extension starts an HTTP API server on runtime, listening on `localhost:1203`. You can call `GET /invocations` to get a list of AWS Request IDs of functions invoked in the same runtime environment (including currently running ones).
+
+The port number can be changed by setting the environment variable `INVOCATION_HISTORY_EXTENSION_HTTP_PORT` to any value. The default is `1203`.
+
+Please see [here](https://github.com/michimani/invocation-history-extension/tree/main/docs/ipc.yaml) for API server specs.
+
+# Example for using this extension
+
+See [_example](https://github.com/michimani/invocation-history-extension/tree/main/_example) for using this extension at the Lambda Function (Golang) using container image.
 
 # License
 
