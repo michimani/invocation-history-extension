@@ -40,4 +40,6 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Build extension
-      run: make build
+      run: |
+        go version
+        make build
