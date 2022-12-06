@@ -7,7 +7,9 @@ RUN go mod download
 ADD . .
 RUN go build -o /main
 RUN mkdir -p /opt
-ADD https://github.com/michimani/invocation-history-extension/releases/download/v$EXTENSION_VERSION/extension.zip ./
+## download extension.zip from released asset
+# ADD https://github.com/michimani/invocation-history-extension/releases/download/v$EXTENSION_VERSION/extension.zip ./
+ADD ./bin/extension.zip ./
 RUN unzip extension.zip -d /opt
 RUN rm extension.zip
 
