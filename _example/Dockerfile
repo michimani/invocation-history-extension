@@ -1,5 +1,5 @@
 FROM public.ecr.aws/lambda/provided:al2 as build
-ENV EXTENSION_VERSION 0.1.0
+ENV EXTENSION_VERSION 0.2.0
 RUN yum install -y golang unzip
 RUN go env -w GOPROXY=direct
 ADD go.mod go.sum ./
