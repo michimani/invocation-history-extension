@@ -56,8 +56,11 @@ func processEvents(ctx context.Context, c *extension.Client) error {
 		case <-ctx.Done():
 			return nil
 		default:
-			if err := c.PollingEvent(ctx); err != nil {
+			if waitNextEvent, err := c.PollingEvent(ctx); err != nil {
 				return err
+			} else if !waitNextEvent {
+				// received shutdown event
+				return nil
 			}
 		}
 	}

@@ -36,6 +36,7 @@ func (c *Client) Register(ctx context.Context, extensionName string) error {
 		LambdaExtensionName: extensionName,
 		Events: []extension.EventType{
 			extension.EventTypeInvoke,
+			extension.EventTypeShutdown,
 		},
 	})
 
@@ -55,21 +56,26 @@ func (c *Client) Register(ctx context.Context, extensionName string) error {
 }
 
 const (
-	eventTypeInvoke string = "INVOKE"
+	eventTypeInvoke   string = "INVOKE"
+	eventTypeShutdown string = "SHUTDOWN"
 )
 
-func (c *Client) PollingEvent(ctx context.Context) error {
+// PollingEvent call GET /extension/event/next and handle event.
+// returns
+// - bool: if continue to polling, returns true
+// - error
+func (c *Client) PollingEvent(ctx context.Context) (bool, error) {
 	c.logger.Info("Waiting for next event...")
 	out, err := extension.EventNext(ctx, c.alagoClient, &extension.EventNextInput{
 		LambdaExtensionIdentifier: c.extensionIdentifier,
 	})
 
 	if err != nil {
-		return err
+		return false, err
 	}
 
 	if out.StatusCode != http.StatusOK {
-		return fmt.Errorf("An error occurred at calling /extension/event/next API. statusCode:%d errType:%s errMessage:%s",
+		return false, fmt.Errorf("An error occurred at calling /extension/event/next API. statusCode:%d errType:%s errMessage:%s",
 			out.StatusCode, out.Error.ErrorType, out.Error.ErrorMessage)
 	}
 
@@ -78,12 +84,18 @@ func (c *Client) PollingEvent(ctx context.Context) error {
 		now := time.Now().UTC()
 		saveInvocationHistory(out.RequestID, &now)
 		c.logger.Info("Succeeded to save new history. awsRequestId:%s invokedAt:%v", out.RequestID, now)
+	case eventTypeShutdown:
+		c.logger.Info("Received shutdown event. reason:%s", out.ShutdownReason)
+		c.logger.Info("Truncate invocation history.")
+		for _, h := range History.Invocations {
+			c.logger.Info("%+v", *h)
+		}
+		return false, nil
 	default:
-		// noop
-		c.logger.Warn("Cannot handle event. eventType:%s", out.EventType)
+		return false, fmt.Errorf("Cannot handle event. eventType:%s", out.EventType)
 	}
 
-	return nil
+	return true, nil
 }
 
 func saveInvocationHistory(requestID string, now *time.Time) {
