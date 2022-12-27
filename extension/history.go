@@ -1,6 +1,7 @@
 package extension
 
 import (
+	"fmt"
 	"time"
 )
 
@@ -15,18 +16,28 @@ type InvocationHistory struct {
 	Invocations []*Invocation `json:"invocations"`
 }
 
-func (i *InvocationHistory) Init() {
+func (i *InvocationHistory) Init() error {
+	if i == nil {
+		return fmt.Errorf("i is nil")
+	}
+
 	i.Invocations = []*Invocation{}
+	return nil
 }
 
-func (i *InvocationHistory) Add(inv *Invocation) {
+func (i *InvocationHistory) Add(inv *Invocation) error {
 	if i == nil {
-		return
+		return fmt.Errorf("i is nil")
+	}
+
+	if inv == nil {
+		return nil
 	}
 
 	if i.Invocations == nil {
-		i.Init()
+		_ = i.Init()
 	}
 
 	i.Invocations = append(i.Invocations, inv)
+	return nil
 }

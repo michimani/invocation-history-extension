@@ -82,8 +82,11 @@ func (c *Client) PollingEvent(ctx context.Context) (bool, error) {
 	switch out.EventType {
 	case eventTypeInvoke:
 		now := time.Now().UTC()
-		saveInvocationHistory(out.RequestID, &now)
-		c.logger.Info("Succeeded to save new history. awsRequestId:%s invokedAt:%v", out.RequestID, now)
+		if err := saveInvocationHistory(out.RequestID, &now); err != nil {
+			c.logger.Error("Failed to save new history. awsRequestId:%s invokedAt:%v err:%v", out.RequestID, now, err)
+		} else {
+			c.logger.Info("Succeeded to save new history. awsRequestId:%s invokedAt:%v", out.RequestID, now)
+		}
 	case eventTypeShutdown:
 		c.logger.Info("Received shutdown event. reason:%s", out.ShutdownReason)
 		c.logger.Info("Truncate invocation history.")
@@ -98,8 +101,8 @@ func (c *Client) PollingEvent(ctx context.Context) (bool, error) {
 	return true, nil
 }
 
-func saveInvocationHistory(requestID string, now *time.Time) {
-	History.Add(&Invocation{
+func saveInvocationHistory(requestID string, now *time.Time) error {
+	return History.Add(&Invocation{
 		AWSRequestID: requestID,
 		InvocatedAt:  now,
 	})
