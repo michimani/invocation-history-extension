@@ -143,6 +143,7 @@ func Test_Client_PollingEvent(t *testing.T) {
 		expect        bool
 		expectMessage string
 		wantError     bool
+		historyNil    bool
 	}{
 		{
 			name: "ok: event type INVOKE",
@@ -211,6 +212,20 @@ func Test_Client_PollingEvent(t *testing.T) {
 			expect:    false,
 			wantError: true,
 		},
+		{
+			name: "ng: History is nil",
+			httpClient: hcmock.New(&hcmock.MockInput{
+				Status:     "OK",
+				StatusCode: 200,
+				Headers: []hcmock.Header{
+					{Key: "Lambda-Extension-Event-Identifier", Value: "lambda-extension-event-identifier"},
+				},
+				BodyBytes: []byte(`{"eventType":"INVOKE","deadlineMs":123456,"requestId":"aws-request-id","invokedFunctionArn":"function-arn","tracing":{"type":"X-Amzn-Trace-Id","value":"tracing-value"}}`),
+			}),
+			expect:     false,
+			wantError:  true,
+			historyNil: true,
+		},
 	}
 
 	t.Setenv("AWS_LAMBDA_RUNTIME_API", "test-host")
@@ -226,6 +241,10 @@ func Test_Client_PollingEvent(t *testing.T) {
 			rqir.NoError(err)
 			rqir.NotNil(client)
 			extension.SetExtensionIdentifier(client, "test-ex-id")
+
+			if c.historyNil {
+				extension.History = nil
+			}
 
 			b, err := client.PollingEvent(context.Background())
 			if c.wantError {

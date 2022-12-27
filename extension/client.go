@@ -84,6 +84,7 @@ func (c *Client) PollingEvent(ctx context.Context) (bool, error) {
 		now := time.Now().UTC()
 		if err := saveInvocationHistory(out.RequestID, &now); err != nil {
 			c.logger.Error("Failed to save new history. awsRequestId:%s invokedAt:%v err:%v", out.RequestID, now, err)
+			return false, err
 		} else {
 			c.logger.Info("Succeeded to save new history. awsRequestId:%s invokedAt:%v", out.RequestID, now)
 		}
