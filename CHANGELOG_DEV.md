@@ -6,6 +6,11 @@ This is a version of CHANGELOG less than v1.0.0
 
 TBD
 
+v0.2.1 (2022-12-28)
+===
+
+* Fixes: a little improvement
+
 v0.2.0 (2022-12-06)
 ===
 
